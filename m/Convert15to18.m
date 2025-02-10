@@ -1,0 +1,25 @@
+(sf15Id as any) => let
+        Source = sf15Id,
+        #"tab" = #table(1, {{Source}}),
+        #"cb1" = Table.AddColumn(#"tab", "cb1", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],0,1)) then 1 else 0),
+        #"cb2" = Table.AddColumn(#"cb1", "cb2", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],1,1)) then 2 else 0),
+        #"cb3" = Table.AddColumn(#"cb2", "cb3", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],2,1)) then 4 else 0),
+        #"cb4" = Table.AddColumn(#"cb3", "cb4", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],3,1)) then 8 else 0),
+        #"cb5" = Table.AddColumn(#"cb4", "cb5", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],4,1)) then 16 else 0),
+        #"char16" = Table.AddColumn(cb5, "char16", each Text.Middle("ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", [cb1]+[cb2]+[cb3]+[cb4]+[cb5], 1)),
+        #"cb6" = Table.AddColumn(#"char16", "cb6", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],5,1)) then 1 else 0),
+        #"cb7" = Table.AddColumn(#"cb6", "cb7", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],6,1)) then 2 else 0),
+        #"cb8" = Table.AddColumn(#"cb7", "cb8", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],7,1)) then 4 else 0),
+        #"cb9" = Table.AddColumn(#"cb8", "cb9", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],8,1)) then 8 else 0),
+        #"cb10" = Table.AddColumn(#"cb9", "cb10", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],9,1)) then 16 else 0),
+        #"char17" = Table.AddColumn(cb10, "char17", each Text.Middle("ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", [cb6]+[cb7]+[cb8]+[cb9]+[cb10], 1)),
+        #"cb11" = Table.AddColumn(#"char17", "cb11", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],10,1)) then 1 else 0),
+        #"cb12" = Table.AddColumn(#"cb11", "cb12", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],11,1)) then 2 else 0),
+        #"cb13" = Table.AddColumn(#"cb12", "cb13", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],12,1)) then 4 else 0),
+        #"cb14" = Table.AddColumn(#"cb13", "cb14", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],13,1)) then 8 else 0),
+        #"cb15" = Table.AddColumn(#"cb14", "cb15", each if Text.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Text.Middle([Column1],14,1)) then 16 else 0),
+        #"char18" = Table.AddColumn(cb15, "char18", each Text.Middle("ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", [cb11]+[cb12]+[cb13]+[cb14]+[cb15], 1)),
+        #"Added Custom" = Table.AddColumn(char18, "sf18id", each [Column1]&[char16]&[char17]&[char18]),
+        #"Removed Other Columns" = Table.SelectColumns(#"Added Custom",{"sf18id"})
+    in
+        #"Removed Other Columns"
